@@ -5,12 +5,7 @@ using System.Threading.Tasks;
 
 namespace HolmesServices.DataAccess
 {
-    public static class CustomerDB
+    public class JobDB
     {
-        public static string GetConnection()
-        {
-            return "";
-        }
-
     }
 }
