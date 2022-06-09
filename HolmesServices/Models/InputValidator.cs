@@ -9,7 +9,7 @@ namespace HolmesServices.Models
     public static class InputValidator
     {
         // Method to determine if a value is all letters with regex
-        public static (bool, string) IsValidStringData(string input)
+        public static (bool, string) IsValidString(string input)
         {
             bool validInput;
             string errMsg = string.Empty;
@@ -40,7 +40,19 @@ namespace HolmesServices.Models
 
             return (validInput, errMsg);
         }
-        //sergio
+        public static (bool,string) IsValidStringData(string input)
+        {
+            bool validInput = default;
+            string errMsg = string.Empty;
+            // test for any non space characters and symbols
+            Regex rgx = new Regex(
+                @"\S+?\~+?\!+?\@+?\#+?\$+?\%+?\^+?\&+?\*+?\(+?\)+?\++?", RegexOptions.IgnorePatternWhitespace);
+            
+            if (rgx.IsMatch(input))
+                { validInput = false; errMsg = " can only contain letters and numbers"; }
+
+            return (validInput, errMsg);
+        }
         public static (bool, string) isValidUsername(string input)
         {
             bool validInput;

@@ -1,23 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using HolmesServices.ErrorMessages;
+using HolmesServices.Errors;
 
 namespace HolmesServices.Models
 {
     public class Job
     {
-        [Required]
+        // Note the ErrorDict does not work with DataAnnotations
+        [Required(ErrorMessage = "You must enter an Id")]
         public int? Id 
         { 
-            get => this.Id; 
+            get => Id.Value; 
             set
             {
-                if (value > 0)
+                if (value > 0 && value <= int.MaxValue)
                     this.Id = value;
                 else
-                    throw new Exception("")
+                    Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
+            }
+        }
+        [Required(ErrorMessage = "Customer id required")]
+        public int? Customer_Id 
+        {
+            get => Customer_Id.Value;
+            set
+            {
+                if (value > 0 && value <= int.MaxValue)
+                    this.Customer_Id = value;
+                else
+                    Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
+            }
+        }
+        [Required(ErrorMessage = "Design Id required")]
+        public int? Design_Id
+        {
+            get => Design_Id.Value;
+            set
+            {
+                if (value > 0 && value <= int.MaxValue)
+                    this.Design_Id = value;
+                else
+                    Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
             }
         }
     }
