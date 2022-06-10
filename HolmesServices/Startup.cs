@@ -8,6 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using MySql.EntityFrameworkCore;
+using HolmesServices.Models;
 
 namespace HolmesServices
 {
@@ -23,7 +26,13 @@ namespace HolmesServices
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(25);
+            });
+            services.AddControllersWithViews().AddNewtonsoftJson();
+            services.AddDbContext<HolmesContext>(options => options.UseMySQL(Configuration.GetConnectionString("dbConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

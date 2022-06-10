@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using HolmesServices.ErrorMessages;
 using HolmesServices.Errors;
+using System.Collections.Generic;
 
 namespace HolmesServices.Models
 {
@@ -31,6 +32,9 @@ namespace HolmesServices.Models
                     Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
             }
         }
+        //navigation property / foreign key
+        public Customer Customer { get; set; }
+
         [Required(ErrorMessage = "Design Id required")]
         public int? Design_Id
         {
@@ -43,5 +47,7 @@ namespace HolmesServices.Models
                     Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
             }
         }
+        //navigation property / foreign key one to many
+        public ICollection<Design> Design { get; set; }
     }
 }

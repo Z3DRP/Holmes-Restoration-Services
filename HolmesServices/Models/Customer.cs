@@ -51,7 +51,7 @@ namespace HolmesServices.Models
             }
         }
         [Required(ErrorMessage = "Email address is required")]
-        [MaxLength(100, ErrorMessage = "Email address must be 100 characters or less")]\
+        [MaxLength(100, ErrorMessage = "Email address must be 100 characters or less")]
         [DataType(DataType.EmailAddress,ErrorMessage = "Invalid email format")]
         public string Email
         {

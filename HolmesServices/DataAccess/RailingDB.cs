@@ -7,10 +7,6 @@ namespace HolmesServices.DataAccess
 {
     public static class RailingDB
     {
-        public static string GetConnection()
-        {
-            return "";
-        }
         public static double GetRailPrice_perSqFt(int id)
         {
             return 0;
