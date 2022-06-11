@@ -89,6 +89,7 @@ namespace HolmesServices.DataAccess
 
             return job;
         }
+        public 
         public static bool CheckJob(int customerId, int designId)
         {
             string connection = DBConnector.GetConnection();
