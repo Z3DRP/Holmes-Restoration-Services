@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Decking>
+@{ ViewBag.Title = TempData["Action"];
+    TempData["quantity"] = 0;
+}
+
+<script type="text/javascript">
+
+    if ("@TempData["message"]" != "")
+    {
+        function my_code() {
+        alert("@TempData["message"]");
+    }
+    } // end if
+    window.onload = my_code();
+</script>
+
+<form asp-action="Add" asp-controller="Cart" method="post">
+
+    <table class="table mt-2 table-warning table-striped">
+        <thead>
+            <tr>
+                <th>Product Code</th>
+                <th>Name</th>
+                <th>Deck Type</th>
+                <th>Price Per Square Foot</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Decking deck in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-area="" asp-action="Details" asp-controller="Decking"
+                           asp-route-id="@deck.Id" asp-route-slug="@deck.Slug()">
+                            @deck.Product_Code
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-area="" asp-action="Details" asp-controller="Product"
+                           asp-route-id="@deck.Id" asp-route-slug="@deck.Slug()">
+                            @deck.Name
+                        </a>
+                    </td>
+                    <!--Add ability to click deck tyoe and then all decks of that type will display-->
+                    <td>
+                        <a asp-area="" asp-action="Details" asp-controller="Decking"
+                           asp-route-id="@deck.Id" asp-route-slug="@deck.Slug()">
+                            @deck.Deck_Type
+                        </a>
+                    </td>
+                    <td>@deck.Price_Per_SqFt.ToString("C")</td>
+                    <td>
+                        <a asp-area="" asp-action="Details" asp-controller="Decking"
+                           asp-route-id="@deck.Id" asp-route-slug="@deck.Slug()">
+                            <img src="~/images/@deck.Image" alt="Image of a product" />
+                        </a>
+                    </td>
+                    <td>
+                        @*<button type="submit" value="@product.ProductID" class="btn btn-outline-success">
+                                Add to Cart
+                            </button>*@
+                        <button asp-area="" asp-action="Add" asp-controller="Cart" asp-route-id="@deck.Id" class="btn btn-success">
+                            Add to Cart
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>

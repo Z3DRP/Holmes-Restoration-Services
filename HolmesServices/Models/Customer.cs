@@ -162,5 +162,7 @@ namespace HolmesServices.Models
             (bool valid, string emsg) isValid = InputValidator.IsValidStringData(input);
             return isValid;
         }
+        public string GetCustomerFullname() => First_Name + Last_Name;
+        public string Slug() => Last_Name + "-" + First_Name;
     }
 }

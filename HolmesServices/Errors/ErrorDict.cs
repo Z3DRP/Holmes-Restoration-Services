@@ -42,7 +42,8 @@ namespace HolmesServices.ErrorMessages
             {"beforeToday", " date must be before current date" },
             {"NotExist", " does not exist" },
             {"greaterZero", " must be greater than zero." },
-            {"lessZero", " must be less than zero" }
+            {"lessZero", " must be less than zero" },
+            
 
         };
         public static Dictionary<string, string> GeneralErrors2 = new Dictionary<string, string>()
@@ -55,10 +56,13 @@ namespace HolmesServices.ErrorMessages
             {"genInvld", "Invalid " },
             {"updateErr", "An error occured while updating " },
             {"addingErr", "An error occured while adding " },
+            {"delErr", "An error occured while deleting " },
+            {"retrieveErr", "An error occured while retrieving " },
             {"mustVerify", "You must verify " },
             {"maxDigits", "Max number of digits reached for " },
             {"endOfDigits", "You cannot add extra digits to end of " },
             {"errInvld", "Error invalid " },
+            {"invalidId", "Error id is not associated with a " },
         };
         public static Dictionary<string, string> SimpleErrors = new Dictionary<string, string>()
         {

@@ -31,9 +31,7 @@ namespace HolmesServices
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(25);
             });
-            services.AddControllersWithViews().AddNewtonsoftJson();
-            services.AddDbContext<HolmesContext>(options => options.UseMySQL(Configuration.GetConnectionString("dbConnection")));
-        }
+            services.AddControllersWithViews().AddNewtonsoftJson();        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

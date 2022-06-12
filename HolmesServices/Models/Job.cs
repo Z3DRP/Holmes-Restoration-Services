@@ -32,8 +32,6 @@ namespace HolmesServices.Models
                     Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
             }
         }
-        //navigation property / foreign key
-        public Customer Customer { get; set; }
 
         [Required(ErrorMessage = "Design Id required")]
         public int? Design_Id
@@ -47,7 +45,6 @@ namespace HolmesServices.Models
                     Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
             }
         }
-        //navigation property / foreign key one to many
-        public ICollection<Design> Design { get; set; }
+        public string Slug() => Customer_Id.ToString() + "-" + Design_Id.ToString();
     }
 }

@@ -32,9 +32,6 @@ namespace HolmesServices.Models
                     Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
             }
         }
-        //navigation property / foreign key
-        public Customer Customer { get; set; }
-
         [Required(ErrorMessage = "Decking Id required")]
         public int? Decking_Id
         {
@@ -47,9 +44,6 @@ namespace HolmesServices.Models
                     Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
             }
         }
-        //navigation property / foreign key
-        public Decking Deck { get; set; }   
-
         [Required(ErrorMessage = "Railing Id required")]
         public int? Railing_Id
         {
@@ -62,9 +56,6 @@ namespace HolmesServices.Models
                     Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
             }
         }
-        //navigation property / foreign key
-        public Railing Rail { get; set; }
-
         [Required(ErrorMessage = "Length is requried")]
         public double? Length
         {
@@ -158,8 +149,8 @@ namespace HolmesServices.Models
             double railPrice = 0;
             try
             {
-                deckPrice = DeckingDB.GetDeckPrice_perSqft(Decking_Id.Value);
-                railPrice = RailingDB.GetRailPrice_perSqFt(Railing_Id.Value);
+                deckPrice = DeckingDB.GetDeckPrice_PerSqft(Decking_Id.Value);
+                railPrice = RailingDB.GetRailPrice_PerSqft(Railing_Id.Value);
             }
             catch(Exception ex)
             {

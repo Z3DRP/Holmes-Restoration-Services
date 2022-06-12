@@ -89,7 +89,6 @@ namespace HolmesServices.DataAccess
 
             return job;
         }
-        public 
         public static bool CheckJob(int customerId, int designId)
         {
             string connection = DBConnector.GetConnection();
@@ -111,14 +110,66 @@ namespace HolmesServices.DataAccess
         }
         public static bool AddJob(int customerId, int designId)
         {
+            int rowsAffected;
+            bool success;
+            string con = DBConnector.GetConnection();
+            string procedure = "[sp_AddJob]";
+            var parameter = new { custoemrId = customerId, designId = designId };
 
+            try
+            {
+                using (IDbConnection db = new SqlConnection(con))
+                {
+                    rowsAffected = db.Execute(procedure, parameter, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch(Exception ex)
+            { throw ex; }
+
+            success = rowsAffected > 0 ? true : false;
+            return success;
         }
-        public static bool UpdateJob(int customerId, int designId)
+        public static bool UpdateJob(int jobId, int customerId, int designId)
         {
+            int rowsAffected;
+            bool success;
+            string con = DBConnector.GetConnection();
+            string procedure = "[sp_UpdateJob]";
+            var parameters = new { jobId = jobId, customerId = customerId, designId = designId };
 
+            try
+            {
+                using (IDbConnection db = new SqlConnection(con))
+                {
+                    rowsAffected = db.Execute(procedure, parameters, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch(Exception ex)
+            { throw ex; }
+
+            success = rowsAffected > 0 ? true : false;
+            return success;
         }
         public static bool DeleteJob(int jobId)
         {
+            int rowsAffected;
+            bool success;
+            string con = DBConnector.GetConnection();
+            string procedure = "[sp_DeleteJob]";
+            var parameter = new { id = jobId };
+
+            try
+            {
+                using (IDbConnection db = new SqlConnection(con))
+                {
+                    rowsAffected = db.Execute(procedure, parameter, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch(Exception ex)
+            { throw ex};
+
+            success = rowsAffected > 0 ? true : false;
+            return success;
 
         }
     }

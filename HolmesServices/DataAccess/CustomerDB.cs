@@ -158,6 +158,36 @@ namespace HolmesServices.DataAccess
             success = rowsAffected > 0 ? true : false;
             return success;
         }
+        public static bool AddCustomer(Customer customer)
+        {
+            int rowsAffected;
+            bool success;
+            string connection = DBConnector.GetConnection();
+            string procedure = "[sp_AddCustomer]";
+            var parameters = new
+            {
+                fname = customer.First_Name,
+                lname = customer.Last_Name,
+                email = customer.Email,
+                phone = customer.Phone_Number,
+                street = customer.Street_Address,
+                city = customer.City,
+                state = customer.State,
+                zip = customer.Zipcode
+            };
+            try
+            {
+                using (IDbConnection db = new SqlConnection(connection))
+                {
+                    rowsAffected = db.Execute(procedure, parameters, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch (Exception ex)
+            { throw ex; }
+
+            success = rowsAffected > 0 ? true : false;
+            return success;
+        }
         public static bool UpdateCustomer(int id, string fname, string lname, string email, string phone, string street, string city, string state, string zip)
         {
             bool success;
@@ -182,6 +212,62 @@ namespace HolmesServices.DataAccess
                 using (IDbConnection db = new SqlConnection(connection))
                 {
                     rowsAffected = db.Execute(procedure, parameters, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch(Exception ex)
+            { throw ex; }
+
+            success = rowsAffected > 0 ? true : false;
+            return success;
+        }
+        public static bool UpdateCustomer(Customer customer)
+        {
+            bool success;
+            int rowsAffected;
+            string connection = DBConnector.GetConnection();
+            string procedure = "[sp_UpdateCustomer]";
+            var parameters = new
+            {
+                id = customer.Id,
+                fname = customer.First_Name,
+                lname = customer.Last_Name,
+                email = customer.Email,
+                phone = customer.Phone_Number,
+                street = customer.Street_Address,
+                city = customer.City,
+                state = customer.State,
+                zip = customer.Zipcode
+            };
+
+            try
+            {
+                using (IDbConnection db = new SqlConnection(connection))
+                {
+                    rowsAffected = db.Execute(procedure, parameters, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch (Exception ex)
+            { throw ex; }
+
+            success = rowsAffected > 0 ? true : false;
+            return success;
+        }
+        public static bool DeleteCustomer(int? id)
+        {
+            bool success;
+            int rowsAffected;
+            string con = DBConnector.GetConnection();
+            string procedure = "[sp_DeleteCustoemr]";
+            var parameter = new { id = id };
+            if (id == null)
+            {
+                throw new Exception("Id cannot be null");
+            }
+            try
+            {
+                using (IDbConnection db = new SqlConnection(con))
+                {
+                    rowsAffected = db.Execute(procedure, parameter, commandType: CommandType.StoredProcedure);
                 }
             }
             catch(Exception ex)

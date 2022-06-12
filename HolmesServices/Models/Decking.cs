@@ -91,5 +91,6 @@ namespace HolmesServices.Models
                     Except.ThrowExcept(ErrorDict.GetGeneralError("empty", "Image"));
             }
         }
+        public string Slug() => Product_Code + "-" + Name;
     }
 }
