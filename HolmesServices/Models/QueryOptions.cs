@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace HolmesServices.DataAccess
+namespace HolmesServices.Models
 {
-    public class QueryOptions<T>
+    public class QueryOptions <T>
     {
         // public properties for sorting, filtering, and paging
         public Expression<Func<T, Object>> OrderBy { get; set; }
@@ -50,5 +50,5 @@ namespace HolmesServices.DataAccess
 
     // basically an alias for a list of where expressions - to make code clearer
     public class WhereClauses<T> : List<Expression<Func<T, bool>>> { }
-}
+
 }

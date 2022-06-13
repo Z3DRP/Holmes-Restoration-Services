@@ -49,7 +49,7 @@
                             @deck.Deck_Type
                         </a>
                     </td>
-                    <td>@deck.Price_Per_SqFt.ToString("C")</td>
+                    <td>@deck.GetFormattedPrice()</td>
                     <td>
                         <a asp-area="" asp-action="Details" asp-controller="Decking"
                            asp-route-id="@deck.Id" asp-route-slug="@deck.Slug()">

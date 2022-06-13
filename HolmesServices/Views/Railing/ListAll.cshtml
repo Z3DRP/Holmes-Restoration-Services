@@ -1,5 +1,71 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model IEnumerable<Railing>
+@{ ViewBag.Title = TempData["Action"];
+    TempData["quantity"] = 0;
 }
+
+<script type="text/javascript">
+
+    if ("@TempData["message"]" != "")
+    {
+        function my_code() {
+        alert("@TempData["message"]");
+    }
+    } // end if
+    window.onload = my_code();
+</script>
+
+<form asp-action="Add" asp-controller="Cart" method="post">
+
+    <table class="table mt-2 table-warning table-striped">
+        <thead>
+            <tr>
+                <th>Product Code</th>
+                <th>Name</th>
+                <th>Rail Type</th>
+                <th>Price Per Square Foot</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Railing rail in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-area="" asp-action="Details" asp-controller="Decking"
+                           asp-route-id="@rail.Id" asp-route-slug="@rail.Slug()">
+                            @rail.Product_Code
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-area="" asp-action="Details" asp-controller="Product"
+                           asp-route-id="@rail.Id" asp-route-slug="@rail.Slug()">
+                            @rail.Name
+                        </a>
+                    </td>
+                    <!--Add ability to click deck tyoe and then all decks of that type will display-->
+                    <td>
+                        <a asp-area="" asp-action="Details" asp-controller="Decking"
+                           asp-route-id="@rail.Id" asp-route-slug="@rail.Slug()">
+                            @rail.Rail_Type
+                        </a>
+                    </td>
+                    <td>@rail.GetFormattedPrice()</td>
+                    <td>
+                        <a asp-area="" asp-action="Details" asp-controller="Decking"
+                           asp-route-id="@rail.Id" asp-route-slug="@rail.Slug()">
+                            <img src="~/images/@rail.Image" alt="Image of a product" />
+                        </a>
+                    </td>
+                    <td>
+                        @*<button type="submit" value="@product.ProductID" class="btn btn-outline-success">
+                                Add to Cart
+                            </button>*@
+                        <button asp-area="" asp-action="Add" asp-controller="Cart" asp-route-id="@rail.Id" class="btn btn-success">
+                            Add to Cart
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>

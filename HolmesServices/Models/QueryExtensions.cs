@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HolmesServices.DataAccess
+namespace HolmesServices.Models
 {
-    public static class QueryExtension
+    public static class QueryExtensions
     {
         public static IQueryable<T> PageBy<T>(this IQueryable<T> items, int pagenumber, int pagesize)
         {

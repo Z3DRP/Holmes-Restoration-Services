@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using HolmesServices.ErrorMessages;
 using HolmesServices.Errors;
+using System;
 
 namespace HolmesServices.Models
 {
@@ -9,9 +10,9 @@ namespace HolmesServices.Models
         (bool, string) isValidInput;
 
         [Required(ErrorMessage = "Railing Id required")]
-        public int? Id
+        public int Id
         {
-            get => Id.Value;
+            get => this.Id;
             set
             {
                 if (value > 0 && value < int.MaxValue)
@@ -67,9 +68,9 @@ namespace HolmesServices.Models
             }
         }
         [Required(ErrorMessage = "Price per square foot is required")]
-        public double? Price_Per_SqFt
+        public double Price_Per_SqFt
         {
-            get => Price_Per_SqFt.Value;
+            get => this.Price_Per_SqFt;
             set
             {
                 if (value > 0 && value <= double.MaxValue)
@@ -93,6 +94,18 @@ namespace HolmesServices.Models
             }
         }
         public string Slug() => Product_Code + "-" + Name;
+        public string GetFormattedPrice()
+        {
+            double num;
+            try
+            {
+                num = Price_Per_SqFt;
+            }
+            catch (Exception ex)
+            { throw ex; }
+
+            return num.ToString("C");
+        }
 
     }
 }
