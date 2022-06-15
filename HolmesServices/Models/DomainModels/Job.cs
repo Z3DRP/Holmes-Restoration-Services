@@ -15,6 +15,7 @@ namespace HolmesServices.Models
 
         [Required(ErrorMessage = "Customer id required")]
         [Range(0, int.MaxValue, ErrorMessage = "Id must be a positive number")]
+        //fk
         public int Customer_Id { get; set; }
         // nav property
         public Customer Customer { get; set; }
@@ -22,7 +23,10 @@ namespace HolmesServices.Models
 
         [Required(ErrorMessage = "Design Id required")]
         [Range(0, int.MaxValue, ErrorMessage = "Id must be a positive number")]
+        //fk
         public int Design_Id { get; set; }
+        // nav property
+        public Design Design { get; set; }
 
         public string Slug() => Customer_Id.ToString() + "-" + Design_Id.ToString();
     }

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using HolmesServices.ErrorMessages;
 using HolmesServices.Errors;
 using HolmesServices.DataAccess;
+using System.Collections.Generic;
 
 namespace HolmesServices.Models
 {
@@ -53,6 +54,8 @@ namespace HolmesServices.Models
 
         [Required(ErrorMessage = "Start date required")]
         public DateTime Start_Date { get; set; }
+        // nav property
+        public ICollection<Job> Jobs { get; set; }
 
         private double CalcSquareFeet()
         {

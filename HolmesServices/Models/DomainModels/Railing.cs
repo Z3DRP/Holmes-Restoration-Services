@@ -1,11 +1,12 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using HolmesServices.ErrorMessages;
 using HolmesServices.Errors;
+using System;
+using System.Collections.Generic;
 
 namespace HolmesServices.Models
 {
-    public class Decking
+    public class Railing
     {
         [Required(ErrorMessage = "Railing Id required")]
         [RegularExpression(@"[0-9]+?", ErrorMessage = "Id must be numeric")]
@@ -25,13 +26,17 @@ namespace HolmesServices.Models
         public string Name { get; set; }
 
 
-        [Required(ErrorMessage = "Deck type is required")]
-        [MaxLength(10, ErrorMessage = "Type id must be 10 characters or less")]
-        [RegularExpression(@"[0-9]*?[a-zA-Z]*?[0-9]*?[a-zA-Z]*?", ErrorMessage = "Deck type may contain letters and numbers only")]
+        [Required(ErrorMessage = "Rail type is required")]
+        [MaxLength(10, ErrorMessage = "Rail type must be 100 characters or less")]
+        [RegularExpression(@"[0-9]*?[a-zA-Z]*?[0-9]*?[a-zA-Z]*?", ErrorMessage = "Type id may contain letters and numbers only")]
+        //fk
         public string Type_Id { get; set; }
 
+        // nav property
+        public Rail_Type Type { get; set; }
 
-        [Required(ErrorMessage = "Price per square foot required")]
+
+        [Required(ErrorMessage = "Price per square foot is required")]
         [RegularExpression(@"\d*?|\D*?", ErrorMessage = "Price must be numeric")]
         public double Price_Per_SqFt { get; set; }
 
@@ -40,8 +45,10 @@ namespace HolmesServices.Models
         [MaxLength(255, ErrorMessage = "Image must be 255 characters or less")]
         public string Image { get; set; }
 
-        public string Slug() => Product_Code + "-" + Name;
+        // nav property
+        public ICollection<Design> Designs { get; set; }
 
+        public string Slug() => Product_Code + "-" + Name;
         public string GetFormattedPrice()
         {
             double num;
@@ -49,10 +56,11 @@ namespace HolmesServices.Models
             {
                 num = Price_Per_SqFt;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             { throw ex; }
 
             return num.ToString("C");
         }
+
     }
 }

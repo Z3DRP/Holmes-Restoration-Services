@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MySql.EntityFrameworkCore;
-using HolmesServices.Models;
+using HolmesServices.DataAccess;
 
 namespace HolmesServices
 {
@@ -31,7 +31,11 @@ namespace HolmesServices
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(25);
             });
-            services.AddControllersWithViews().AddNewtonsoftJson();        }
+            services.AddControllersWithViews().AddNewtonsoftJson();
+
+            services.AddDbContext<HolmesContext>(options =>
+                options.UseMySQL(Configuration.GetConnectionString("HolmesContext")));
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -51,10 +55,23 @@ namespace HolmesServices
 
             app.UseRouting();
 
+            app.UseSession();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                // route for pageing sorting filtering
+                endpoints.MapControllerRoute(
+                    name:"",
+                    pattern: "{controller}/{action}/page/{pagenumber}/size/{pagesize}/sort/{sortfield}/{sortdirection}/filter/{author}/{genre}/{price}");
+                
+                // route for paging and sorting only
+                endpoints.MapControllerRoute(
+                    name: "",
+                    pattern: "{controller}/{action}/page/{pagenumber}/size/{pagesize}/sort/{sortfield}/{sortdirection}");
+                
+                // default route
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
