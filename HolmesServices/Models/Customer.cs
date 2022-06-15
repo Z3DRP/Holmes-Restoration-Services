@@ -9,6 +9,8 @@ namespace HolmesServices.Models
         (bool, string) IsValidInput;
 
         [Required(ErrorMessage = "Id required")]
+        [Range(0, double.MaxValue, ErrorMessage = "Id must be a positive number")]
+
         public int? Id
         {
             get => Id.Value;

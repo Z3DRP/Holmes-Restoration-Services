@@ -7,92 +7,39 @@ namespace HolmesServices.Models
 {
     public class Railing
     {
-        (bool, string) isValidInput;
-
         [Required(ErrorMessage = "Railing Id required")]
-        public int Id
-        {
-            get => this.Id;
-            set
-            {
-                if (value > 0 && value < int.MaxValue)
-                    this.Id = value;
-                else
-                    Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
-            }
-        }
+        [RegularExpression(@"[0-9]+?",ErrorMessage = "Id must be numeric")]
+        [Range(0, int.MaxValue, ErrorMessage = "Id must be a positive number")]
+        public int Id { get; set; }
+
+
         [Required(ErrorMessage = "Product code required")]
         [MaxLength(255, ErrorMessage = "Product code must be 255 characters or less")]
-        public string Product_Code
-        {
-            get => this.Product_Code;
-            set
-            {
-                isValidInput = InputValidator.IsValidStringData(value);
+        [RegularExpression(@"[0-9]*?[a-zA-Z]*?[0-9]*?[a-zA-Z]*?", ErrorMessage = "Product code may contain letters and numbers only")]
+        public string Product_Code { get; set; }
 
-                // if true
-                if (!string.IsNullOrEmpty(value) && isValidInput.Item1)
-                    this.Product_Code = value;
-                else // if isValid == false use error message
-                    Except.ThrowExcept(isValidInput.Item2);
-            }
-        }
+
         [Required(ErrorMessage = "Name is required")]
         [MaxLength(255, ErrorMessage = "Name must be 255 characters or less")]
-        public string Name
-        {
-            get => this.Name;
-            set
-            {
-                isValidInput = InputValidator.IsValidStringData(value);
+        [RegularExpression(@"[0-9]*?[a-zA-Z]*?[0-9]*?[a-zA-Z]*?",ErrorMessage = "Name may contain letters and numbers only")]
+        public string Name { get; set; }
 
-                if (!string.IsNullOrEmpty(value) && isValidInput.Item1)
-                    this.Name = value;
-                else
-                    Except.ThrowExcept(isValidInput.Item2);
-            }
-        }
+
         [Required(ErrorMessage = "Rail type is required")]
-        [MaxLength(100, ErrorMessage = "Rail type must be 100 characters or less")]
-        public string Rail_Type
-        {
-            get => this.Rail_Type;
-            set
-            {
-                isValidInput = InputValidator.IsValidStringData(value);
+        [MaxLength(10, ErrorMessage = "Rail type must be 100 characters or less")]
+        [RegularExpression(@"[0-9]*?[a-zA-Z]*?[0-9]*?[a-zA-Z]*?", ErrorMessage = "Type id may contain letters and numbers only")]
+        public string Type_Id { get; set; }
 
-                if (!string.IsNullOrEmpty(value) && isValidInput.Item1)
-                    this.Rail_Type = value;
-                else
-                    Except.ThrowExcept(isValidInput.Item2);
-            }
-        }
+
         [Required(ErrorMessage = "Price per square foot is required")]
-        public double Price_Per_SqFt
-        {
-            get => this.Price_Per_SqFt;
-            set
-            {
-                if (value > 0 && value <= double.MaxValue)
-                    this.Price_Per_SqFt = value;
-                else
-                    Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
-            }
-        }
+        [RegularExpression(@"\d*?|\D*?", ErrorMessage = "Price must be numeric")]
+        public double Price_Per_SqFt { get; set; }
+
+
         [Required(ErrorMessage = "Image is required")]
         [MaxLength(255, ErrorMessage = "Image must be 255 characters or less")]
-        public string Image
-        {
-            get => this.Image;
-            set
-            {
-                // not sure about regex for image string yet
-                if (!string.IsNullOrEmpty(value))
-                    this.Image = value;
-                else
-                    Except.ThrowExcept(ErrorDict.GetGeneralError("empty", "Image"));
-            }
-        }
+        public string Image { get; set; }
+
         public string Slug() => Product_Code + "-" + Name;
         public string GetFormattedPrice()
         {

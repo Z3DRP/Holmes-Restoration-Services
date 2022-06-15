@@ -9,124 +9,54 @@ namespace HolmesServices.Models
     public class Design
     {
         [Required(ErrorMessage = "Design Id required")]
-        public int? Id
-        {
-            get => Id.Value;
-            set
-            {
-                if (value > 0 && value <= int.MaxValue)
-                    this.Id = value;
-                else
-                    Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
-            }
-        }
+        [Range(0, int.MaxValue, ErrorMessage = "Id must be a positive number")]
+        public int Id { get; set; }
+
+
         [Required(ErrorMessage = "Customer Id requried")]
-        public int? Customer_Id
-        {
-            get => Customer_Id.Value;
-            set
-            {
-                if (value > 0 && value <= int.MaxValue)
-                    this.Customer_Id = value;
-                else
-                    Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
-            }
-        }
+        [Range(0, int.MaxValue, ErrorMessage = "Id must be a positive number")]
+        public int Customer_Id { get; set; }
+        //navigational property - fk
+        public Customer Customer { get; set; }
+
+
         [Required(ErrorMessage = "Decking Id required")]
-        public int? Decking_Id
-        {
-            get => Decking_Id.Value;
-            set
-            {
-                if (value > 0 && value <= int.MaxValue)
-                    this.Decking_Id = value;
-                else
-                    Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
-            }
-        }
+        [Range(0, int.MaxValue, ErrorMessage = "Id must be a positive number")]
+        public int Decking_Id { get; set; }
+        //navigational property - fk
+        public Decking Deck { get; set; }
+
+
         [Required(ErrorMessage = "Railing Id required")]
-        public int? Railing_Id
-        {
-            get => Railing_Id.Value;
-            set
-            {
-                if (value > 0 && value <= int.MaxValue)
-                    this.Railing_Id = value;
-                else
-                    Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
-            }
-        }
+        [Range(0, int.MaxValue, ErrorMessage = "Id must be a positive number")]
+        public int Railing_Id { get; set; }
+        //navigational property - fk
+        public Railing Rail { get; set; }
+
+
         [Required(ErrorMessage = "Length is requried")]
-        public double? Length
-        {
-            get => Length.Value;
-            set
-            {
-                if (value > 0 && value <= double.MaxValue)
-                    this.Length = value;
+        [Range(0,1000000,ErrorMessage = "Length must be between 0 - 1000000")]
+        public double Length { get; set; }
 
-                else
-                    Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
-            }
-        }
+
         [Required(ErrorMessage = "Width is required")]
-        public double? Width
-        {
-            get => Width.Value;
-            set
-            {
-                if (value > 0 && value <= double.MaxValue)
-                    this.Width = value;
-                else
-                    Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
-            }
-        }
-        [Required(ErrorMessage = "Square feet is required")]
-        public double? Square_Ft
-        {
-            get => Square_Ft.Value;
-            set
-            {
-                if (Width.HasValue && Length.HasValue)
-                {
-                    this.Square_Ft = CalcSquareFeet(Length.Value, Width.Value);
-                }
-                else
-                    Except.ThrowExcept(ErrorDict.GetHardError("needBoth"));
-            }
-        }
-        [Required(ErrorMessage = "Estimate required")]
-        public double? Estimate
-        {
-            get => Estimate.Value;
-            set
-            {
-                if (Square_Ft.HasValue && Square_Ft > 0)
-                {
-                    this.Estimate = CalcEstimate();
-                }
-                else
-                    Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Estimate"));
-            }
-        }
-        [Required(ErrorMessage = "Start date required")]
-        public DateTime? Start_Date
-        {
-            get => Start_Date.Value;
-            set
-            {
-                if (value > DateTime.Today && value <= DateTime.Today.AddMonths(4))
-                {
-                    this.Start_Date = value;
-                }
-                else
-                    Except.ThrowExcept(ErrorDict.GetHardError("betweenDate"));
-            }
-        }
+        public double Width { get; set; }
 
-        private double CalcSquareFeet(double len, double wid)
+
+        [Required(ErrorMessage = "Square feet is required")]
+        public double Square_Ft { get => this.Square_Ft; set => CalcSquareFeet(); }
+
+
+        [Required(ErrorMessage = "Estimate required")]
+        public double Estimate { get => this.Estimate; set => CalcEstimate(); }
+
+
+        [Required(ErrorMessage = "Start date required")]
+        public DateTime Start_Date { get; set; }
+
+        private double CalcSquareFeet()
         {
-            return 0.0;
+            return this.Length * this.Width;
         }
         private double CalcEstimate()
         {
@@ -135,11 +65,8 @@ namespace HolmesServices.Models
             (double, double) prices = (deckPrice, railPrice);
             double estimate = 0;
 
-            if (Square_Ft.HasValue && Decking_Id.HasValue && Railing_Id.HasValue)
-            {
-                prices = GetPrices();
-                estimate = ((prices.Item1 * Square_Ft.Value) + (prices.Item2 * Square_Ft.Value));
-            }
+            prices = GetPrices();
+            estimate = ((prices.Item1 * Square_Ft) + (prices.Item2 * Square_Ft));
 
             return estimate;
         }
@@ -147,15 +74,9 @@ namespace HolmesServices.Models
         {
             double deckPrice = 0;
             double railPrice = 0;
-            try
-            {
-                deckPrice = DeckingDB.GetDeckPrice_PerSqft(Decking_Id.Value);
-                railPrice = RailingDB.GetRailPrice_PerSqft(Railing_Id.Value);
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
+
+            deckPrice = DeckingDB.GetDeckPrice_PerSqft(Decking_Id);
+            railPrice = RailingDB.GetRailPrice_PerSqft(Railing_Id);
 
             return (deckPrice, railPrice);
         }

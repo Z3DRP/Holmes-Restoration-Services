@@ -153,7 +153,7 @@ namespace HolmesServices.Models
         {
             bool validData;
             string errMsg = string.Empty;
-            Regex rgx = new Regex(@"[0-9]{7}?[a-zA-Z]{3}?");
+            Regex rgx = new Regex(@"[0-9]*?[a-zA-Z]*?[0-9]*?[a-zA-Z]*?");
 
             if (!rgx.IsMatch(input))
             {

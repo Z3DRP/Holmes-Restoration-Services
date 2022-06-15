@@ -9,42 +9,21 @@ namespace HolmesServices.Models
     {
         // Note the ErrorDict does not work with DataAnnotations
         [Required(ErrorMessage = "You must enter an Id")]
-        public int? Id 
-        { 
-            get => Id.Value; 
-            set
-            {
-                if (value > 0 && value <= int.MaxValue)
-                    this.Id = value;
-                else
-                    Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
-            }
-        }
+        [Range(0, int.MaxValue, ErrorMessage = "Id must be a positive number")]
+        public int Id { get; set; }
+        
+
         [Required(ErrorMessage = "Customer id required")]
-        public int? Customer_Id 
-        {
-            get => Customer_Id.Value;
-            set
-            {
-                if (value > 0 && value <= int.MaxValue)
-                    this.Customer_Id = value;
-                else
-                    Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
-            }
-        }
+        [Range(0, int.MaxValue, ErrorMessage = "Id must be a positive number")]
+        public int Customer_Id { get; set; }
+        // nav property
+        public Customer Customer { get; set; }
+
 
         [Required(ErrorMessage = "Design Id required")]
-        public int? Design_Id
-        {
-            get => Design_Id.Value;
-            set
-            {
-                if (value > 0 && value <= int.MaxValue)
-                    this.Design_Id = value;
-                else
-                    Except.ThrowExcept(ErrorDict.GetGeneralError("greaterZero", "Id"));
-            }
-        }
+        [Range(0, int.MaxValue, ErrorMessage = "Id must be a positive number")]
+        public int Design_Id { get; set; }
+
         public string Slug() => Customer_Id.ToString() + "-" + Design_Id.ToString();
     }
 }
