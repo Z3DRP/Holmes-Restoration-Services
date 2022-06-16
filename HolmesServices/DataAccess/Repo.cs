@@ -41,8 +41,6 @@ namespace HolmesServices.DataAccess
         public virtual void Update(T entity) => dbset.Update(entity);
         public virtual void Delete(T entity) => dbset.Remove(entity);
         public virtual void Save() => context.SaveChanges();
-        // stored procedures
-        public bool spAdd(T obj) =>
         // private helper method to build query expression
         private IQueryable<T> BuildQuery(QueryOptions<T> options)
         {

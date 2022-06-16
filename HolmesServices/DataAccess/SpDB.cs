@@ -18,7 +18,7 @@ namespace HolmesServices.DataAccess
         public bool Insert(T dbObj, string procedure, List<string> parameters)
         {
             string conStr = DBConnector.GetConnection();
-            string 
+            return false;
         }
     }
 }
