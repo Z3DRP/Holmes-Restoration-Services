@@ -3,40 +3,17 @@
 
 <h2>@TempData["Action"]</h2>
 
-<ul class="list-group">
-    <li class="list-group-item">
-        <label>Product Code:</label>
-        @Model.Product_Code
-    </li>
-    <li class="list-group-item">
-        <label>Name:</label>
-        @Model.Name
-    </li>
-    <li class="list-group-item">
-        <label>Rail Type:</label>
-        @Model.Rail_Type
-    </li>
-    <li class="list-group-item">
-        <label>Price Per Square Foot:</label>
-        @Model.Price_Per_SqFt
-    </li>
-    <li class="list-group-item">
-        <label>Image:</label>
-        <a asp-area="" asp-action="Details" asp-controller="Decking"
-           asp-route-id="@Model.Id" asp-route-slug="@Model.Slug()">
-            <img src="~/images/@Model.Image" alt="Image of a product" />
-        </a>
-    </li>
-    <li class="list-group-item">
-        <a asp-area="" asp-action="Edit" asp-controller="Decking"
-           asp-route-id="@Model.Id"
-           class="btn btn-dark">Edit</a>
+<div class="card">
+    <img src="/Images/apex3logo.png" alt="Image of railing" style="width:100%" />
+    
+    <h3 class="card-title p-3">@Model.Name</h3>
+    <h6 class="card-subtitle p-1">@Model.GetFormattedPrice()</h6>
 
-        <a asp-area="" asp-action="Delete" asp-controller="Decking"
-           asp-route-id="@Model.Id"
-           class="btn btn-dark">Delete</a>
+    <p class="card-body p-1">@Model.Description</p>
 
-        <a asp-area="" asp-action="Index" asp-controller="Home"
-           class="btn btn-primary">Home</a>
-    </li>
-</ul>
+    <p><button class="btn btn-success" asp-action="Add"
+               asp-controller="Design">Add to Design</button></p>
+
+    <p><button class="btn-secondary" asp-action="Back"
+               asp-controller="Home">Back</button></p>
+</div>

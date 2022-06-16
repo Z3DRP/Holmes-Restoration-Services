@@ -32,6 +32,10 @@ namespace HolmesServices.Models
         //fk
         public string Type_Id { get; set; }
 
+        [Required(ErrorMessage = "Description is required")]
+        [MaxLength(255, ErrorMessage = "Description must be 255 characters or less")]
+        [RegularExpression(@"[0-9]*?[a-zA-Z]*?[0-9]*?[a-zA-Z]*?", ErrorMessage = "Deck type may contain letters and numbers only")]
+        public string Description { get; set; }
         //nav property 
         public Deck_Type Type { get; set; }
 
