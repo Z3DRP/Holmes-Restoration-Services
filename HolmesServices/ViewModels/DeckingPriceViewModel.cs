@@ -10,6 +10,6 @@ namespace HolmesServices.ViewModels
         public string Product_Code { get; set; }   
         public string Name { get; set; }
         public double Price_Per_SqFt { get; set; }
-
+        public string Image { get; set; }
     }
 }

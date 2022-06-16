@@ -10,7 +10,7 @@ namespace HolmesServices.ViewModels
     {
         public IEnumerable<Decking> Decks { get; set; }
         public DeckRouteDictionary CurrentRoute { get; set; }
-        public IEnumerable<DeckType> Type { get; set; }
+        public IEnumerable<Deck_Type> Type { get; set; }
         // might not need total pages
         public int TotalPages { get; set; }
         public Dictionary<string, string> Prices =>
