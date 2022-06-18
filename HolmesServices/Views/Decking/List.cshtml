@@ -90,6 +90,7 @@
                             <a asp-action="Details" asp-route-id="@deck.Id"
                                asp-route-slug="@deck.Name.Slug()">@deck.Name</a>
                         </td>
+                        <!--Maybe make it to where if you click type it will list all deck types eventually-->
                         <td>@deck.Type.Type</td>
                         <td>@deck.GetFormattedPrice()</td>
                         <td>

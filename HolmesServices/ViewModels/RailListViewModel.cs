@@ -12,7 +12,7 @@ namespace HolmesServices.ViewModels
         public IEnumerable<Railing> Rails { get; set; }
         public RouteDictionary CurrentRoute { get; set; }
         // data for filter drop-downs
-        public IEnumerable<Rail_Type> Type { get; set; }
+        public IEnumerable<Rail_Type> Types { get; set; }
         public int TotalPages { get; set; }
         public Dictionary<string, string> Prices =>
             new Dictionary<string, string>
