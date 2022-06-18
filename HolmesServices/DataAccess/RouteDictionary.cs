@@ -42,19 +42,32 @@ namespace HolmesServices.DataAccess
                 this[nameof(GridDTO.SortDirection)] = "asc";
         }
 
-        public string TypeFilter
+        public string DeckTypeFilter
         {
-            get => Get(nameof(MaterialDTO.Type))?.Replace(FilterPrefix.Type, "");
-            set => this[nameof(MaterialDTO.Type)] = value;
+            get => Get(nameof(DeckingGridDTO.Type))?.Replace(FilterPrefix.Type, "");
+            set => this[nameof(DeckingGridDTO.Type)] = value;
         }
-        public string PriceFilter
+        public string DeckPriceFilter
         {
-            get => Get(nameof(MaterialDTO.Price))?.Replace(FilterPrefix.Price, "");
-            set => this[nameof(MaterialDTO.Price)] = value;
+            get => Get(nameof(DeckingGridDTO.Price))?.Replace(FilterPrefix.Price, "");
+            set => this[nameof(DeckingGridDTO.Price)] = value;
         }
         // maybe add comapny filter if company column added to table
-        public void ClearFilters() =>
-            TypeFilter = PriceFilter = MaterialDTO.DefaultFilter;
+        public void ClearDeckFilters() =>
+            DeckTypeFilter = DeckPriceFilter = DeckingGridDTO.DefaultFilter;
+
+        public string RailTypeFilter
+        {
+            get => Get(nameof(RailingGridDTO.Type))?.Replace(FilterPrefix.Type, "");
+            set => this[nameof(RailingGridDTO.Type)] = value;
+        }
+        public string RailPriceFilter
+        {
+            get => Get(nameof(RailingGridDTO.Price))?.Replace(FilterPrefix.Price, "");
+            set => this[nameof(RailingGridDTO.Price)] = value;
+        }
+        public void ClearRailFilters() =>
+            RailTypeFilter = RailPriceFilter = RailingGridDTO.DefaultFilter;
 
         private string Get(string key) => Keys.Contains(key) ? this[key] : null;
         public RouteDictionary Clone()

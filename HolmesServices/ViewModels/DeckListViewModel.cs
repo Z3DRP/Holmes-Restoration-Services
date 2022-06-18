@@ -9,8 +9,8 @@ namespace HolmesServices.ViewModels
     public class DeckListViewModel
     {
         public IEnumerable<Decking> Decks { get; set; }
-        public DeckRouteDictionary CurrentRoute { get; set; }
-        public IEnumerable<Deck_Type> Type { get; set; }
+        public RouteDictionary CurrentRoute { get; set; }
+        public IEnumerable<Deck_Type> Types { get; set; }
         // might not need total pages
         public int TotalPages { get; set; }
         public Dictionary<string, string> Prices =>
@@ -21,5 +21,7 @@ namespace HolmesServices.ViewModels
                 {"under15", "Under $15" },
                 {"under20", "Under $20"},
             };
+        // pagesizes will be changed to do default size of 5 or show all
+        public int[] PageSizes => new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
     }
 }

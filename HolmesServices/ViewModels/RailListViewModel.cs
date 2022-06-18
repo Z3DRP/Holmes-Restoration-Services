@@ -10,7 +10,7 @@ namespace HolmesServices.ViewModels
     public class RailListViewModel
     {
         public IEnumerable<Railing> Rails { get; set; }
-        public RailRouteDictionary CurrentRoute { get; set; }
+        public RouteDictionary CurrentRoute { get; set; }
         // data for filter drop-downs
         public IEnumerable<Rail_Type> Type { get; set; }
         public int TotalPages { get; set; }
@@ -22,5 +22,7 @@ namespace HolmesServices.ViewModels
                 {"under15", "Under $15" },
                 {"under20", "Under $20"},
             };
+        // pagesizes will be changed to do default size of 5 or show all
+        public int[] PageSizes => new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
     }
 }
