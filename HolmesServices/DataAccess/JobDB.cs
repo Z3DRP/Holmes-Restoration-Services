@@ -166,7 +166,7 @@ namespace HolmesServices.DataAccess
                 }
             }
             catch(Exception ex)
-            { throw ex};
+            { throw ex; }
 
             success = rowsAffected > 0 ? true : false;
             return success;

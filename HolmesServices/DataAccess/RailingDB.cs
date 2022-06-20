@@ -237,7 +237,7 @@ namespace HolmesServices.DataAccess
             {
                 productCode = railing.Product_Code,
                 name = railing.Name,
-                type = railing.Rail_Type,
+                type = railing.Type,
                 price = railing.Price_Per_SqFt,
                 image = railing.Image
             };
@@ -313,7 +313,7 @@ namespace HolmesServices.DataAccess
                 id = railing.Id,
                 productCode = railing.Product_Code,
                 name = railing.Name,
-                type = railing.Rail_Type,
+                type = railing.Type,
                 price = railing.Price_Per_SqFt,
                 image = railing.Image
             };

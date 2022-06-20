@@ -5,99 +5,101 @@ using System.Linq;
 using System.Threading.Tasks;
 using HolmesServices.DataAccess;
 using HolmesServices.Models;
+using HolmesServices.ViewModels;
 using HolmesServices.ErrorMessages;
+using HolmesServices.Models.DTOs;
+using HolmesServices.Models.Grids;
+using HolmesServices.Models.ExtensionMethods;
+using HolmesServices.DataAccess.Repositories;
+using HolmesServices.Models.DomainModels;
+using HolmesServices.Models.RouteDictionaries;
 
 namespace HolmesServices.Controllers
 {
     public class DeckingController : Controller
     {
+        private HolmesStoreUnitOfWork data { get; set; }
+        private DeckingController(HolmesContext hctx) => data = new HolmesStoreUnitOfWork(hctx);
         [HttpGet]
         public IActionResult Add()
         {
-            TempData["Action"] = "Add-Decking";
-            return View("Edit", new Decking());
+            // this adds selected decking to myDesign session
+            return View(); 
         }
-        [HttpGet]
-        public IActionResult Edit(int id)
+        public ViewResult Details(int id)
         {
-            TempData["Action"] = "Edit-Decking";
-            Decking decking = DeckingDB.GetDeckingById(id);
-
-            if (decking == null)
+            var deck = data.Decks.Get(new QueryOptions<Decking>
             {
-                string e = ErrorDict.GetGeneralError2("invalidId", "decking");
-                Error emsg = new Error("Invalid Id", e);
+                Includes = "Type, Group",
+                Where = d => d.Id == id
+            });
+            return View(deck);
+        }
+        public ViewResult List(DeckingGridDTO values)
+        {
+            // get string builder which loads route segment values and stores them
+            // in them in the session
+            var builder = new DeckingGridBuilder(HttpContext.Session, values,
+                defaultSortField: nameof(Decking.Name));
 
-                return View("AppError", emsg);
-            }
-            else
-                return View(decking);
+            // create options for querying authors OrderBy depends on vlaue in sortfield route
+            var options = new DeckingQueryOptions
+            {
+                Includes = "Type, Group",
+                PageNumber = builder.CurrentRoute.PageNumber,
+                PageSize = builder.CurrentRoute.PageSize,
+                OrderByDirection = builder.CurrentRoute.SortDirection
+            };
+
+            //call sortfilter method of queryoptions obj and pass in the builder obj
+            // it uses the route information and the properties of builder obj
+            //to add osrt and fileter options to the query expression
+            options.SortFilter(builder);
+
+            // create view model and add page of decks data, data for drop-downs
+            // the current route and the total number of pages
+            var deckViewModel = new DeckListViewModel
+            {
+                Decks = data.Decks.List(options),
+                Types = data.DeckTypes.List(new QueryOptions<Deck_Type>
+                { OrderBy = t => t.Type }),
+                Groups = data.Groups.List(new QueryOptions<Price_Groups>
+                { OrderBy = g => g.Group_Name }),
+                CurrentRoute = builder.CurrentRoute,
+                TotalPages = builder.GetTotalPages(data.Decks.Count)
+            };
+
+            return View(deckViewModel);
         }
         [HttpPost]
-        public IActionResult Edit(Decking decking)
+        public RedirectToActionResult Filter(string[] filter, bool clear = false)
         {
-            string action = (decking.Id == 0) ? "Add-Decking" : "Edit-Decking";
-            string e = string.Empty;
-            bool success = default;
+            // get current route segments from session
+            var builder = new DeckingGridBuilder(HttpContext.Session);
 
-            if (ModelState.IsValid)
-            {
-                switch(action)
-                {
-                    case "Add-Decking":
-                        success = DeckingDB.AddDecking(decking);
-                        e = ErrorDict.GetGeneralError2("addErr", "decking");
-                        break;
-                    case "Edit-Decking":
-                        success = DeckingDB.UpdateDecking(decking);
-                        e = ErrorDict.GetGeneralError2("updateErr", "decking");
-                        break;
-                }
-
-                if (!success)
-                {
-                    Error emsg = new Error("Insertion Error", e);
-                    return View("AppError", emsg);
-                }
-                else
-                    return RedirectToAction("Index", "Home");
-
-            }
+            // clear or update filter route segment values if update get type data
+            // from database so can add type name slug to type filter value
+            if (clear)
+                builder.ClearFilterSegments();
             else
             {
-                TempData["Action"] = action;
-                return View(decking);
+                var type = data.DeckTypes.Get(filter[0].ToInt());
+                builder.CurrentRoute.PageNumber = 1;
+                builder.LoadFilterSegments(filter, type);
             }
+            // save route data back to session and redirect to Decking/List action method
+            // passing dictionary of route segment values to build url
+            builder.SaveRouteSegments();
+            return RedirectToAction("List", builder.CurrentRoute);
         }
-        public IActionResult Details(int id)
+        [HttpPost]
+        public RedirectToActionResult PageSize(int pagesize)
         {
-            TempData["Action"] = "View-Decking-Details";
-            Decking decking = DeckingDB.GetDeckingById(id);
+            var builder = new DeckingGridBuilder(HttpContext.Session);
 
-            if (decking == null)
-            {
-                string e = ErrorDict.GetGeneralError2("retrieveErr", "decking");
-                Error emsg = new Error("Retrevial Error", e);
-
-                return View("AppError", emsg);
-            }
-            else
-                return View(decking);
-        }
-        public IActionResult ListAll()
-        {
-            TempData["Action"] = "Display-Deckings";
-            List<Decking> deckings = new List<Decking>();
-
-            if (deckings.Count == 0)
-            {
-                string e = ErrorDict.GetGeneralError("retrieveErr", "deckings");
-                Error emsg = new Error("Retrieval Error", e);
-
-                return View("AppError", emsg);
-            }
-            else
-                return View(deckings);
+            builder.CurrentRoute.PageSize = pagesize;
+            builder.SaveRouteSegments();
+            return RedirectToAction("List", builder.CurrentRoute);
         }
     }
 }

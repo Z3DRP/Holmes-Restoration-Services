@@ -9,5 +9,7 @@ namespace HolmesServices.Models.DTOs
 
         public string Type { get; set; } = DefaultFilter;
         public string Price { get; set; } = DefaultFilter;
+        public string Group { get; set; } = DefaultFilter;
+
     }
 }

@@ -28,6 +28,13 @@
                     Model.Types, "Id", current.RailTypeFilter))">
                 <option value="@RailingGridDTO.DefaultFilter">All</option>
             </select>
+
+            <label>Price Group: </label>
+            <select name="filter" class="form-control m-2"
+                    asp-items="@(new SelectList(
+                        Model.Groups, "Id", "Group_Name", current.RailGroupFilter))">
+                <option value="@RailingGridDTO.DefaultFilter">All</option>
+            </select>"
             <label>Price: </label>
             <select name="filter" class="form-control m-2"
                     asp-items="@(new SelectList(

@@ -11,6 +11,7 @@ namespace HolmesServices.Models.RouteDictionaries
     {
         public const string Type = "type-";
         public const string Price = "price-";
+        public const string Group = "group-";
     }
     public class RouteDictionary : Dictionary<string, string>
     {
@@ -46,15 +47,25 @@ namespace HolmesServices.Models.RouteDictionaries
             get => Get(nameof(DeckingGridDTO.Type))?.Replace(FilterPrefix.Type, "");
             set => this[nameof(DeckingGridDTO.Type)] = value;
         }
-        public string RailTypeFilter
+        public string DeckGroupFilter
         {
-            get => Get(nameof(RailingGridDTO.Type))?.Replace(FilterPrefix.Type, "");
-            set => this[nameof(RailingGridDTO.Type)] = value;
+            get => Get(nameof(DeckingGridDTO.Group))?.Replace(FilterPrefix.Group, "");
+            set => this[nameof(DeckingGridDTO.Group)] = value;
         }
         public string DeckPriceFilter
         {
             get => Get(nameof(DeckingGridDTO.Price))?.Replace(FilterPrefix.Price, "");
             set => this[nameof(DeckingGridDTO.Price)] = value;
+        }
+        public string RailTypeFilter
+        {
+            get => Get(nameof(RailingGridDTO.Type))?.Replace(FilterPrefix.Type, "");
+            set => this[nameof(RailingGridDTO.Type)] = value;
+        }
+        public string RailGroupFilter
+        {
+            get => Get(nameof(RailingGridDTO.Group))?.Replace(FilterPrefix.Group, "");
+            set => this[nameof(RailingGridDTO.Group)] = value;
         }
         public string RailPriceFilter
         {

@@ -94,4 +94,4 @@ namespace HolmesServices.ErrorMessages
         public static string GetHardError(string ecode) => HardMessages[ecode];
     }
 }
-}
+

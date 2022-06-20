@@ -12,7 +12,7 @@ namespace HolmesServices.Models
             // filter
             if (builder.IsFilteredByType)
             {
-                Where = t => t.Rail_Type == builder.CurrentRoute.TypeFilter;
+                Where = t => t.Type.Type == builder.CurrentRoute.RailTypeFilter;
             }
             if (builder.IsFilteredByPrice)
             {
@@ -21,13 +21,13 @@ namespace HolmesServices.Models
                 {
                     // if the current route equals the current key in interation filter records
                     // with the current iteration price
-                    if (builder.CurrentRoute.PriceFilter == prices.Key)
+                    if (builder.CurrentRoute.RailPriceFilter == prices.Key)
                         Where = p => p.Price_Per_SqFt < prices.Value;
                 }
             }
             // sort
             if (builder.IsSortedByType)
-                OrderBy = t => t.Rail_Type;
+                OrderBy = t => t.Type;
 
             else if (builder.IsSortedByPrice)
                 OrderBy = p => p.Price_Per_SqFt;

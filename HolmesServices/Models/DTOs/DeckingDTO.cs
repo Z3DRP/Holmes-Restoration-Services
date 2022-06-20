@@ -15,7 +15,7 @@ namespace HolmesServices.Models.DTOs
             DeckId = deck.Id;
             Product_Code = deck.Product_Code;
             Name = deck.Name;
-            Type = deck.Deck_Type;
+            Type = deck.Type.Type;
             Price = deck.Price_Per_SqFt;
         }
 

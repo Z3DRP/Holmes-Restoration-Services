@@ -259,7 +259,7 @@ namespace HolmesServices.DataAccess
             {
                 productCode = decking.Product_Code,
                 name = decking.Name,
-                type = decking.Deck_Type,
+                type = decking.Type,
                 price = decking.Price_Per_SqFt,
                 image = decking.Image
             };
@@ -336,7 +336,7 @@ namespace HolmesServices.DataAccess
                 id = decking.Id,
                 productCode = decking.Product_Code,
                 name = decking.Name,
-                type = decking.Deck_Type,
+                type = decking.Type,
                 price = decking.Price_Per_SqFt,
                 image = decking.Image
             };

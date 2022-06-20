@@ -15,7 +15,7 @@ namespace HolmesServices.Models.DTOs
             RailId = rail.Id;
             Product_Code = rail.Product_Code;
             Price = rail.Price_Per_SqFt;
-            Type = rail.Rail_Type;
+            Type = rail.Type.Type;
         }
     }
 }

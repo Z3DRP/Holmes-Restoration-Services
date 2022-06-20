@@ -11,14 +11,16 @@ namespace HolmesServices.Models
         {
             // filter
             if (builder.IsFilterByType)
-                Where = t => t.Deck_Type == builder.CurrentRoute.TypeFilter;
+                Where = t => t.Type.Type == builder.CurrentRoute.DeckTypeFilter;
             if (builder.IsFilteredByPrice)
                 foreach (KeyValuePair<string, double> prices in PriceFilters.Prices)
-                    if (builder.CurrentRoute.PriceFilter == prices.Key)
+                    if (builder.CurrentRoute.DeckPriceFilter == prices.Key)
                         Where = p => p.Price_Per_SqFt < prices.Value;
             // sort
             if (builder.IsSortedByByType)
-                OrderBy = t => t.Deck_Type;
+                OrderBy = t => t.Type;
+            else if (builder.IsSortedByGroup)
+                OrderBy = g => g.Group;
             else if (builder.IsSortedByPrice)
                 OrderBy = p => p.Price_Per_SqFt;
             else

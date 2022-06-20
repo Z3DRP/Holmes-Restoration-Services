@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using HolmesServices.Models;
+using HolmesServices.Models.DomainModels;
 
 namespace HolmesServices.DataAccess
 {
@@ -12,13 +13,16 @@ namespace HolmesServices.DataAccess
         public HolmesContext(DbContextOptions<HolmesContext> options)
             : base(options) { }
 
+        public DbSet<Deck_Type> Deck_Types { get; set; }
+        public DbSet<Rail_Type> Rail_Types { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Price_Groups> Price_Groups { get; set; }
         public DbSet<Decking> Deckings { get; set; }
         public DbSet<Railing> Railings { get; set; }
         public DbSet<Design> Designs { get; set; }
         public DbSet<Job> Jobs { get; set; }
-        public DbSet<Deck_Type> Deck_Types {get;set;}
-        public DbSet<Rail_Type> Rail_Types { get; set; }
+
+        
 
         protected override void OnModelCreating(ModelBuilder model)
         {
@@ -34,6 +38,12 @@ namespace HolmesServices.DataAccess
             model.Entity<Rail_Type>().HasKey(r => new { r.Id });
             model.Entity<Rail_Type>().HasMany(r => r.Railings)
                 .WithOne(r => r.Type).HasForeignKey(rt => rt.Type_Id);
+            // price groups
+            model.Entity<Price_Groups>().HasKey(g => new { g.Id });
+            model.Entity<Price_Groups>().HasMany(g => g.Decks)
+                .WithOne(d => d.Group).HasForeignKey(g => g.Group_Id);
+            model.Entity<Price_Groups>().HasMany(g => g.Rails)
+                .WithOne(r => r.Group).HasForeignKey(g => g.Group_Id);
             //deckings
             model.Entity<Decking>().HasKey(d => new { d.Id });
             model.Entity<Decking>().HasOne(t => t.Type)
@@ -56,6 +66,7 @@ namespace HolmesServices.DataAccess
                 .WithMany(dj => dj.Jobs).HasForeignKey(dj => dj.Design_Id);
             model.Entity<Job>().HasOne(c => c.Customer)
                 .WithMany(c => c.Jobs).HasForeignKey(cj => cj.Customer_Id);
+            
         }
 
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HolmesServices.Models;
+using HolmesServices.Models.DomainModels;
 using HolmesServices.Models.RouteDictionaries;
 
 namespace HolmesServices.ViewModels
@@ -13,6 +14,7 @@ namespace HolmesServices.ViewModels
         public RouteDictionary CurrentRoute { get; set; }
         // data for filter drop-downs
         public IEnumerable<Rail_Type> Types { get; set; }
+        public IEnumerable<Price_Groups> Groups { get; set; }
         public int TotalPages { get; set; }
         public Dictionary<string, string> Prices =>
             new Dictionary<string, string>

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using HolmesServices.DataAccess;
+using HolmesServices.Models.RouteDictionaries;
 using HolmesServices.Models.ExtensionMethods;
 using HolmesServices.Models.DTOs;
 
@@ -33,7 +33,11 @@ namespace HolmesServices.Models.Grids
 
         public void SaveRouteSegments() =>
             session.SetObject<RouteDictionary>(RouteKey, routes);
-
+        public int GetTotalPages(int count)
+        {
+            int size = routes.PageSize;
+            return (count + size - 1) / size;
+        }
         public RouteDictionary CurrentRoute => routes;
     }
 }

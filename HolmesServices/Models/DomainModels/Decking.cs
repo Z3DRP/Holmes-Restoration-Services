@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using HolmesServices.ErrorMessages;
-using HolmesServices.Errors;
+using HolmesServices.Models;
+using HolmesServices.Models.DomainModels;
 
 namespace HolmesServices.Models
 {
@@ -31,13 +31,17 @@ namespace HolmesServices.Models
         [RegularExpression(@"[0-9]*?[a-zA-Z]*?[0-9]*?[a-zA-Z]*?", ErrorMessage = "Deck type may contain letters and numbers only")]
         //fk
         public string Type_Id { get; set; }
+        //nav property 
+        public Deck_Type Type { get; set; }
 
         [Required(ErrorMessage = "Description is required")]
         [MaxLength(255, ErrorMessage = "Description must be 255 characters or less")]
         [RegularExpression(@"[0-9]*?[a-zA-Z]*?[0-9]*?[a-zA-Z]*?", ErrorMessage = "Deck type may contain letters and numbers only")]
         public string Description { get; set; }
-        //nav property 
-        public Deck_Type Type { get; set; }
+
+        [Required(ErrorMessage = "Price per square foot required")]
+        public int Group_Id { get; set; }
+        public Price_Groups Group { get; set; }
 
         [Required(ErrorMessage = "Price per square foot required")]
         [RegularExpression(@"\d*?|\D*?", ErrorMessage = "Price must be numeric")]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using HolmesServices.Models;
+using HolmesServices.Models.DomainModels;
 using HolmesServices.Models.RouteDictionaries;
 using HolmesServices.ViewModels;
 
@@ -11,7 +12,7 @@ namespace HolmesServices.ViewModels
         public IEnumerable<Decking> Decks { get; set; }
         public RouteDictionary CurrentRoute { get; set; }
         public IEnumerable<Deck_Type> Types { get; set; }
-        // might not need total pages
+        public IEnumerable<Price_Groups> Groups { get; set; }
         public int TotalPages { get; set; }
         public Dictionary<string, string> Prices =>
             new Dictionary<string, string>
