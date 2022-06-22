@@ -38,5 +38,8 @@ namespace HolmesServices.Models.ExtensionMethods
         public static void SetInt32(this IResponseCookies cookies, string key,
             int value, int days = 30) =>
             cookies.SetString(key, JsonConvert.SerializeObject(value), days);
+
+        public static void SetObject<T>(this IResponseCookies cookies, string key,
+            T value, int days = 30) => cookies.SetString(key, JsonConvert.SerializeObject(value), days);
     }
 }

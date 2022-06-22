@@ -13,6 +13,10 @@ namespace HolmesServices.Models.DomainModels
     {
         private const string DesignKey = "mydesign";
         private const string CountKey = "mycount";
+        private const string DeckKey = "mydeck";
+        private const string DeckCount = "deckcount";
+        private const string RailKey = "myrail";
+        private const string RailCount = "railcount";
 
         private List<DesignItem> items { get; set; }
         private List<DesignItemDTO> storedItems { get; set; }
@@ -25,7 +29,7 @@ namespace HolmesServices.Models.DomainModels
             requestCookies = ctx.Request.Cookies;
             responseCookies = ctx.Response.Cookies;
         }
-        public void Load(Repo<Material> data)
+        public void Load(Repo<Design> data)
         {
             items = session.GetObject<List<DesignItem>>(DesignKey);
 
@@ -39,18 +43,18 @@ namespace HolmesServices.Models.DomainModels
             {
                 foreach (DesignItemDTO storedItem in storedItems)
                 {
-                    var material = data.Get(new QueryOptions<Material>
+                    var design = data.Get(new QueryOptions<Design>
                     {
                         Includes = "Type, Group",
-                        Where = m => m.Id == storedItem.MaterialId
+                        Where = m => m.Id == storedItem.DesignID
                     });
 
-                    if (material != null)
+                    if (design != null)
                     {
-                        var dto = new MaterialDTO();
-                        dto.Load(material);
+                        var dto = new DesignDTO();
+                        dto.Load(design);
 
-                        DesignItem item = new DesignItem { Material = dto, };
+                        DesignItem item = new DesignItem { Design = dto, };
                         items.Add(item);
                     }
                 }
@@ -59,30 +63,35 @@ namespace HolmesServices.Models.DomainModels
         }
         // this needs to be redone: need to rethink the session design
         // need to have other info stored like customer info and dimensions
-        public double Cost => items.Sum(i => i.Material.Price);
+        public double Cost => items.Sum(i => i.Design.Estimate);
 
         public int? Count => session.GetInt32(CountKey) ?? requestCookies.GetInt32(CountKey);
 
         public IEnumerable<DesignItem> List => items;
 
         public DesignItem GetbyId(int id) =>
-            items.FirstOrDefault(di => di.Material.Id == id);
+            items.FirstOrDefault(di => di.Design.DesignId == id);
 
         public void Add(DesignItem item)
         {
-            var itemInDesign = GetbyId(item.Material.Id);
+            var itemInDesign = GetbyId(item.Design.DesignId);
 
             if (itemInDesign == null)
                 items.Add(item);
             else
-                // 
+            {
+                items.Clear();
+                items.Add(item);
+            }
+      
         }
         public void Edit(DesignItem item)
+
         {
-            var itemInDesign = GetbyId(item.Material.Id);
+            var itemInDesign = GetbyId(item.Design.DesignId);
 
             if (itemInDesign != null)
-                item.Material.Id = itemInDesign.Material.Id;
+                item.Design.DesignId = itemInDesign.Design.DesignId;
         }
         public void Remove(DesignItem item) => items.Remove(item);
         public void Clear() => items.Clear();
@@ -99,7 +108,7 @@ namespace HolmesServices.Models.DomainModels
             {
                 session.SetObject<List<DesignItem>>(DesignKey, items);
                 session.SetInt32(CountKey, items.Count);
-                responseCookies.SetObject<List<DesignItemDTO>>(DesignKey, items.TODTO());
+                responseCookies.SetObject<List<DesignItemDTO>>(DesignKey, items.ToDTO());
             }
         }
     }

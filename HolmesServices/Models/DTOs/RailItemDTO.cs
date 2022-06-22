@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 
 namespace HolmesServices.Models.DTOs
 {
-    public class DesignItemDTO
+    public class RailItemDTO
     {
-        public int DesignID { get; set; }
-        public int DeckId { get; set; }
         public int RailId { get; set; }
-        public double Estimate { get; set; }
+        public double Price { get; set; }
     }
 }
