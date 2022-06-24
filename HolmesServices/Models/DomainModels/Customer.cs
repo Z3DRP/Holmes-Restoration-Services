@@ -7,8 +7,6 @@ namespace HolmesServices.Models
 {
     public class Customer
     {
-        (bool, string) IsValidInput;
-
         [Required(ErrorMessage = "Id required")]
         [Range(0, double.MaxValue, ErrorMessage = "Id must be a positive number")]
         public int Id { get; set; }
@@ -64,26 +62,6 @@ namespace HolmesServices.Models
         // nav prop
         public ICollection<Job> Jobs { get; set; }
 
-        public (bool,string) ValidateNumbers(string input)
-        {
-            (bool, string) isValid = InputValidator.IsAllNumbers(input);
-            return isValid;
-        }
-        public (bool,string) ValidateString(string input)
-        {
-            (bool valid, string emsg) isValid = InputValidator.IsValidString(input);
-            return isValid;
-        }
-        public (bool,string) ValidateStreet(string input)
-        {
-            (bool valid, string emsg) isValid = InputValidator.IsValidStreet(input);
-            return isValid;
-        }
-        public (bool,string) Validate(string input)
-        {
-            (bool valid, string emsg) isValid = InputValidator.IsValidStringData(input);
-            return isValid;
-        }
         public string GetCustomerFullname() => First_Name + Last_Name;
         public string Slug() => Last_Name + "-" + First_Name;
     }
